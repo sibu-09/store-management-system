@@ -1,0 +1,28 @@
+<div class="customer-container">
+  <h2>👥 Customer Report</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Total Purchases</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>₹{{ customer.totalPurchases | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Total Customers: {{ getTotalCustomers() }}</h3>
+
+  <button routerLink="/reports/dashboard">⬅ Back to Dashboard</button>
+</div>

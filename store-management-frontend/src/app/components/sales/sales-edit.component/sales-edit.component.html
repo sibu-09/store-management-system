@@ -1,0 +1,63 @@
+<div class="edit-sale-container">
+  <h2>Edit Sale</h2>
+
+  <form #saleForm="ngForm" (ngSubmit)="updateSale()" *ngIf="sale">
+    <label>Customer Name:</label>
+    <input
+      type="text"
+      name="customerName"
+      [(ngModel)]="sale.customerName"
+      required
+      pattern="^[A-Za-z ]+$"
+      #customerName="ngModel"
+    />
+    <div *ngIf="customerName.invalid && customerName.touched" class="error">
+      <small *ngIf="customerName.errors?.['required']">Customer name is required.</small>
+      <small *ngIf="customerName.errors?.['pattern']">Only letters are allowed.</small>
+    </div>
+
+    <label>Product Name:</label>
+    <input
+      type="text"
+      name="productName"
+      [(ngModel)]="sale.productName"
+      required
+      pattern="^[A-Za-z ]+$"
+      #productName="ngModel"
+    />
+    <div *ngIf="productName.invalid && productName.touched" class="error">
+      <small *ngIf="productName.errors?.['required']">Product name is required.</small>
+      <small *ngIf="productName.errors?.['pattern']">Only letters are allowed.</small>
+    </div>
+
+    <label>Quantity:</label>
+    <input
+      type="number"
+      name="quantity"
+      [(ngModel)]="sale.quantity"
+      required
+      min="1"
+      #quantity="ngModel"
+    />
+    <div *ngIf="quantity.invalid && quantity.touched" class="error">
+      <small *ngIf="quantity.errors?.['required']">Quantity is required.</small>
+      <small *ngIf="quantity.errors?.['min']">Quantity must be greater than 0.</small>
+    </div>
+
+    <label>Total Amount:</label>
+    <input
+      type="number"
+      name="totalAmount"
+      [(ngModel)]="sale.totalAmount"
+      required
+      min="0"
+      #totalAmount="ngModel"
+    />
+    <div *ngIf="totalAmount.invalid && totalAmount.touched" class="error">
+      <small *ngIf="totalAmount.errors?.['required']">Total amount is required.</small>
+      <small *ngIf="totalAmount.errors?.['min']">Amount cannot be negative.</small>
+    </div>
+
+    <button type="submit" [disabled]="saleForm.invalid">Update Sale</button>
+  </form>
+</div>

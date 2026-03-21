@@ -1,0 +1,25 @@
+<div class="report-dashboard">
+  <h2>📊 Business Performance Dashboard</h2>
+
+  <div class="report-cards">
+    <div class="card total-sales">
+      <h3>💰 Total Sales</h3>
+      <p>₹{{ totalSales | number }}</p>
+    </div>
+
+    <div class="card total-products">
+      <h3>📦 Total Products</h3>
+      <p>{{ totalProducts }}</p>
+    </div>
+
+    <div class="card total-customers">
+      <h3>👥 Total Customers</h3>
+      <p>{{ totalCustomers }}</p>
+    </div>
+
+    <div class="card low-stock">
+      <h3>⚠️ Low Stock Products</h3>
+      <p>{{ lowStockProducts }}</p>
+    </div>
+  </div>
+</div>

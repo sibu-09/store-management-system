@@ -1,0 +1,22 @@
+<div class="user-container">
+  <div class="header">
+    <h2>👤 User Dashboard</h2>
+    <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+  </div>
+
+  <p>Welcome, valued user!</p>
+
+  <div class="card-container">
+    <div class="card" routerLink="products">
+      <h3>🛍 Products</h3>
+      <p>Browse available products</p>
+    </div>
+
+    <div class="card" routerLink="sales">
+      <h3>💰 Sales</h3>
+      <p>Check your purchase history</p>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

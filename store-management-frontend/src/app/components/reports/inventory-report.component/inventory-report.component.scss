@@ -1,0 +1,57 @@
+.inventory-container {
+  padding: 30px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+th {
+  background-color: #ffc107;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.low-stock {
+  background-color: #fff3cd;
+}
+
+.out-of-stock {
+  background-color: #f8d7da;
+}
+
+.summary {
+  margin-top: 25px;
+  text-align: left;
+  padding: 0 20%;
+}
+
+h3 {
+  margin-top: 20px;
+  color: #333;
+}
+
+button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e0a800;
+}

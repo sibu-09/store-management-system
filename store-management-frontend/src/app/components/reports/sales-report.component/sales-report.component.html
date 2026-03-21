@@ -1,0 +1,28 @@
+<div class="sales-container">
+  <h2>📈 Sales Report</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Date</th>
+        <th>Total Amount</th>
+        <th>Payment Mode</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sale of sales">
+        <td>{{ sale.id }}</td>
+        <td>{{ sale.customerName }}</td>
+        <td>{{ sale.date }}</td>
+        <td>₹{{ sale.totalAmount | number }}</td>
+        <td>{{ sale.paymentMode }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Total Sales: ₹{{ getTotalSales() | number }}</h3>
+
+  <button routerLink="/reports/dashboard">⬅ Back to Dashboard</button>
+</div>

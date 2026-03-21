@@ -1,0 +1,40 @@
+<div class="inventory-container">
+  <h2>📦 Inventory Report</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Product Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Price (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of inventory" 
+          [class.low-stock]="item.quantity <= 5 && item.quantity > 0"
+          [class.out-of-stock]="item.quantity === 0">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="summary">
+    <h3>⚠️ Low Stock Items</h3>
+    <ul>
+      <li *ngFor="let item of getLowStockItems()">{{ item.name }} ({{ item.quantity }} left)</li>
+    </ul>
+
+    <h3>❌ Out of Stock</h3>
+    <ul>
+      <li *ngFor="let item of getOutOfStockItems()">{{ item.name }}</li>
+    </ul>
+  </div>
+
+  <button routerLink="/reports/dashboard">⬅ Back to Dashboard</button>
+</div>

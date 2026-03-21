@@ -1,0 +1,39 @@
+<div class="sales-container">
+  <h2>Sales List</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Total Amount</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let sale of sales">
+        <td>{{ sale.id }}</td>
+        <td>{{ sale.customerName }}</td>
+        <td>{{ sale.productName }}</td>
+        <td>{{ sale.quantity }}</td>
+        <td>{{ sale.totalAmount | currency:'INR' }}</td>
+        <td>{{ sale.saleDate | date:'short' }}</td>
+        <td>
+          <!-- ✅ Edit button visible only for ADMIN -->
+          <button *ngIf="role === 'ADMIN'" class="edit-btn" (click)="editSale(sale.id!)">
+            Edit
+          </button>
+
+          <!-- ✅ Delete button visible only for ADMIN -->
+          <button *ngIf="role === 'ADMIN'" class="delete-btn" (click)="deleteSale(sale.id!)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
