@@ -15,23 +15,13 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    // ===== DEBUG / TEST COMMENT =====
-    // This change is added to test Git collaboration sync
-    // No functional code has been modified
-    // =================================
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Using BCrypt for password hashing
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        // DEBUG: Security configuration initialization
-        System.out.println("SecurityConfig loaded successfully");
-
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8080"));
         corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -45,8 +35,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/products/**").permitAll()
                 .requestMatchers("/api/sales/**").permitAll()
-                .requestMatchers("/api/customers/**").permitAll() // allow customers API
-                .anyRequest().permitAll() // temporarily open everything for testing
+                .requestMatchers("/api/customers/**").permitAll() // ✅ allow customers API
+                .anyRequest().permitAll() // ✅ temporarily open everything for testing
             )
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable());
@@ -56,7 +46,6 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        // Fetching authentication manager from configuration
         return authConfig.getAuthenticationManager();
     }
 }
