@@ -11,109 +11,173 @@ import { AuthService } from '../../../services/auth.service';
   template: `
     <div class="auth-container">
       <h2>📝 Register</h2>
+
       <form (ngSubmit)="onRegister()">
-        <input type="text" [(ngModel)]="user.username" name="username" placeholder="Username" required />
-        <input type="password" [(ngModel)]="user.password" name="password" placeholder="Password" required />
+        <input
+          type="text"
+          name="username"
+          [(ngModel)]="user.username"
+          placeholder="Username"
+          required
+        />
 
-        <input type="text" [(ngModel)]="user.name" name="name" placeholder="Full Name" required />
-        <input type="email" [(ngModel)]="user.email" name="email" placeholder="Email" required />
-        <input type="text" [(ngModel)]="user.phone" name="phone" placeholder="Phone" required />
-        <input type="text" [(ngModel)]="user.address" name="address" placeholder="Address" required />
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="user.password"
+          placeholder="Password"
+          required
+        />
 
-        <select [(ngModel)]="user.role" name="role" required>
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="user.name"
+          placeholder="Full Name"
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="user.email"
+          placeholder="Email"
+          required
+        />
+
+        <input
+          type="text"
+          name="phone"
+          [(ngModel)]="user.phone"
+          placeholder="Phone"
+          required
+        />
+
+        <input
+          type="text"
+          name="address"
+          [(ngModel)]="user.address"
+          placeholder="Address"
+          required
+        />
+
+        <select
+          name="role"
+          [(ngModel)]="user.role"
+          required
+        >
           <option value="USER">User</option>
           <option value="ADMIN">Admin</option>
         </select>
 
-        <button type="submit">Register</button>
+        <button type="submit">
+          Register
+        </button>
       </form>
-      <p>Already have an account? <a routerLink="/login">Login here</a></p>
+
+      <p>
+        Already have an account?
+        <a routerLink="/login">Login here</a>
+      </p>
     </div>
   `,
-   styles: [`
-    /* Background and overall layout */
+  styles: [`
+    /* Layout */
     .auth-container {
       max-width: 400px;
       margin: 60px auto;
       padding: 30px;
+      text-align: center;
+      font-family: 'Segoe UI', sans-serif;
+
       background: linear-gradient(135deg, #f0f4ff, #e8f0fe);
       border-radius: 16px;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      font-family: 'Segoe UI', sans-serif;
       color: #000;
     }
 
+    /* Heading */
     h2 {
-      color: #1e3a8a;
-      font-size: 28px;
       margin-bottom: 20px;
+      font-size: 28px;
       font-weight: 600;
+      color: #1e3a8a;
     }
 
+    /* Form */
     form {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    input, select {
+    input,
+    select {
       width: 90%;
       margin: 10px 0;
       padding: 10px 12px;
+
+      font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 14px;
+
       transition: all 0.3s ease;
     }
 
-    input:focus, select:focus {
+    input:focus,
+    select:focus {
+      outline: none;
       border-color: #3b82f6;
       box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
-      outline: none;
     }
 
+    /* Button */
     button {
+      width: 60%;
       margin-top: 15px;
       padding: 10px 20px;
-      width: 60%;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
+
       font-weight: 600;
+      color: #fff;
+
       border: none;
       border-radius: 8px;
       cursor: pointer;
+
+      background: linear-gradient(135deg, #22c55e, #16a34a);
       transition: all 0.3s ease;
     }
 
     button:hover {
-      background: linear-gradient(135deg, #16a34a, #15803d);
       transform: scale(1.05);
+      background: linear-gradient(135deg, #16a34a, #15803d);
     }
 
+    /* Text */
     p {
       margin-top: 15px;
       font-size: 14px;
     }
 
     a {
+      font-weight: 500;
       color: #2563eb;
       text-decoration: none;
-      font-weight: 500;
     }
 
     a:hover {
       text-decoration: underline;
     }
 
-    /* Responsive for small screens */
+    /* Responsive */
     @media (max-width: 480px) {
       .auth-container {
         width: 90%;
         padding: 20px;
       }
 
-      input, select {
+      input,
+      select {
         width: 100%;
       }
 
@@ -122,7 +186,6 @@ import { AuthService } from '../../../services/auth.service';
       }
     }
   `]
-
 })
 export class RegisterComponent {
   user = {
@@ -135,9 +198,12 @@ export class RegisterComponent {
     role: 'USER'
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  onRegister() {
+  onRegister(): void {
     this.authService.register(this.user).subscribe({
       next: (res: any) => {
         alert(res.message || '✅ Registration successful!');
