@@ -1,39 +1,67 @@
-<div class="sales-container">
-  <h2>Sales List</h2>
+<div class="report-dashboard">
+  <div class="header-section">
+    <h2>📊 Business Performance Analytics</h2>
+    <p class="subtitle">Real-time insights and inventory health</p>
+  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Customer</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Total Amount</th>
-        <th>Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+  <div class="report-cards">
+    <div class="card total-sales">
+      <div class="icon-box">💰</div>
+      <div class="card-content">
+        <h3>Total Revenue</h3>
+        <p>₹{{ totalSales | number }}</p>
+        <span class="trend up">↑ 12% vs last month</span>
+      </div>
+    </div>
 
-    <tbody>
-      <tr *ngFor="let sale of sales">
-        <td>{{ sale.id }}</td>
-        <td>{{ sale.customerName }}</td>
-        <td>{{ sale.productName }}</td>
-        <td>{{ sale.quantity }}</td>
-        <td>{{ sale.totalAmount | currency:'INR' }}</td>
-        <td>{{ sale.saleDate | date:'short' }}</td>
-        <td>
-          <!-- ✅ Edit button visible only for ADMIN -->
-          <button *ngIf="role === 'ADMIN'" class="edit-btn" (click)="editSale(sale.id!)">
-            Edit
-          </button>
+    <div class="card total-products">
+      <div class="icon-box">📦</div>
+      <div class="card-content">
+        <h3>Inventory Size</h3>
+        <p>{{ totalProducts }} Items</p>
+        <span class="status">Live Tracking</span>
+      </div>
+    </div>
 
-          <!-- ✅ Delete button visible only for ADMIN -->
-          <button *ngIf="role === 'ADMIN'" class="delete-btn" (click)="deleteSale(sale.id!)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="card total-customers">
+      <div class="icon-box">👥</div>
+      <div class="card-content">
+        <h3>Active Base</h3>
+        <p>{{ totalCustomers }} Users</p>
+        <span class="trend">Stable</span>
+      </div>
+    </div>
+
+    <div class="card low-stock">
+      <div class="icon-box">⚠️</div>
+      <div class="card-content">
+        <h3>Critical Stock</h3>
+        <p>{{ lowStockProducts }} Alerts</p>
+        <span class="trend down" *ngIf="lowStockProducts > 0">Action Required</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="visual-section">
+    <div class="chart-container large">
+      <h3>📈 Sales Growth (Overview)</h3>
+      <div class="mock-graph">
+        <div class="bar" style="height: 40%"></div>
+        <div class="bar" style="height: 60%"></div>
+        <div class="bar" style="height: 55%"></div>
+        <div class="bar" style="height: 85%"></div>
+        <div class="bar" style="height: 70%"></div>
+        <div class="bar highlight" style="height: 95%"></div>
+      </div>
+    </div>
+
+    <div class="chart-container small">
+      <h3>📉 Stock Levels</h3>
+      <div class="mock-pie">
+        <div class="slice" style="width: 50%; background-color: #4CAF50;"></div>
+        <div class="slice" style="width: 30%; background-color: #FFC107;"></div>
+        <div class="slice" style="width: 20%; background-color: #F44336;"></div>
+      </div>
+    </div>
+  </div>
 </div>
