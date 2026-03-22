@@ -1,39 +1,204 @@
-.product-grid {
+.product-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fcfcfc; /* Subtle background difference */
+}
+
+.header-section {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.add-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-btn:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.add-form-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  margin-bottom: 3rem;
+  border: 1px solid #d1d1d1; /* Darker form border */
+  animation: slideDown 0.3s ease-out;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-group label { font-size: 0.85rem; color: #444; font-weight: 700; }
+
+.input-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.input-group input:focus { border-color: #4a90e2; box-shadow: 0 0 0 3px rgba(74,144,226,0.1); }
+
+.save-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.save-btn:hover { background: #219150; }
+
+/* --- ENHANCED PRODUCT CARD BORDER --- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
 }
 
 .product-card {
-  flex: 0 1 230px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  /* The Secret Sauce: Darker border + subtle shadow */
+  border: 1px solid #d0d7de; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: relative;
+}
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-  }
+/* Optional: Adds a thin colored line at the top of each card for style */
+.product-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #4a90e2;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-  img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-  }
+.product-card:hover {
+  transform: translateY(-8px);
+  border-color: #4a90e2; /* Border turns blue on hover */
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
 
-  .product-info {
-    margin-top: 10px;
-    text-align: left;
-  }
+.product-card:hover::before {
+  opacity: 1;
+}
 
-  .card-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-  }
+.img-container {
+  height: 190px;
+  background: #f1f3f5; /* Greyer background to make product pop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.img-container img {
+  max-height: 85%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+
+.product-info {
+  padding: 18px;
+  background: #fff;
+}
+
+.product-info h3 { 
+  margin: 0 0 12px 0; 
+  font-size: 1.15rem; 
+  color: #1a1a1a; 
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price { font-weight: 800; color: #2c3e50; font-size: 1.25rem; }
+.qty { 
+    background: #eef2f7;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #5a6c7d; 
+    font-size: 0.8rem; 
+    font-weight: 600;
+}
+
+.buy-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #4a90e2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.buy-btn:hover { background: #357abd; }
+
+.delete-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #fff5f5;
+  color: #c0392b;
+  cursor: pointer;
+  font-weight: 700;
+  border-top: 1px solid #ffdada;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover { 
+  background: #c0392b; 
+  color: white; 
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
