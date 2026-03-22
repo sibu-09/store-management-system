@@ -1,95 +1,339 @@
-.user-container {
-  text-align: center;
-  padding: 40px;
+// user-dashboard.component.scss
+
+// ─── Tokens ──────────────────────────────────────────────────────
+:host {
+  // Brand
+  --brand:          #111827;
+  --brand-accent:   #6366f1;
+  --brand-accent-2: #4f46e5;
+
+  // Surface
+  --bg:             #f9fafb;
+  --surface:        #ffffff;
+  --surface-hover:  #f3f4f6;
+
+  // Text
+  --tx-1:           #111827;
+  --tx-2:           #374151;
+  --tx-3:           #9ca3af;
+
+  // Border
+  --br:             #e5e7eb;
+  --br-focus:       #6366f1;
+
+  // Danger
+  --red:            #ef4444;
+  --red-dark:       #dc2626;
+
+  // Misc
+  --sidebar-w:      240px;
+  --ease:           cubic-bezier(0.4, 0, 0.2, 1);
+  --dur:            0.2s;
+  --r-sm:           8px;
+  --r-md:           12px;
+  --r-lg:           16px;
+}
+
+// ─── Reset ───────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
+// ─── Shell ───────────────────────────────────────────────────────
+.shell {
+  display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #e3f2fd, #f8f9fa);
-  font-family: 'Segoe UI', sans-serif;
-  color: #000;
+  background: var(--bg);
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--tx-1);
 }
 
-/* 🔹 Header */
-.header {
+// ─── Sidebar ─────────────────────────────────────────────────────
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--brand);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+}
+
+// Brand
+.brand {
+  display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  gap: 10px;
+  padding: 0 20px 28px;
+  border-bottom: 1px solid rgba(255 255 255 / 0.08);
+
+  &-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--r-sm);
+    background: var(--brand-accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+
+    strong {
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+  }
 }
 
-h2 {
-  color: #1b5e20;
-  font-size: 26px;
-  font-weight: 600;
-}
-
-/* 🔹 Logout button */
-.logout-btn {
-  background-color: #ff5252;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.logout-btn:hover {
-  background-color: #d32f2f;
-}
-
-/* 🧭 Subtext */
-p {
-  color: #333;
-  font-size: 15px;
-  margin-bottom: 40px;
-}
-
-/* 🌟 Modern button-like sections for Products & Sales */
-.card-container {
+// Nav
+.nav {
+  flex: 1;
   display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 20px 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background var(--dur) var(--ease),
+              color     var(--dur) var(--ease);
+
+  &:hover {
+    background: rgba(255 255 255 / 0.06);
+    color: #e5e7eb;
+  }
+
+  &--active {
+    background: var(--brand-accent);
+    color: #fff;
+
+    .nav-icon { opacity: 1; }
+  }
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  flex-shrink: 0;
+  transition: opacity var(--dur);
+}
+
+// Sidebar footer
+.sidebar-footer {
+  padding: 16px 12px 0;
+  border-top: 1px solid rgba(255 255 255 / 0.08);
+  margin-top: auto;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
-/* 🧊 Replaces "card" look with minimal buttons */
-.card {
-  background: rgba(255, 255, 255, 0.6);
-  border: 2px solid #90caf9;
-  border-radius: 30px;
-  padding: 25px 50px;
-  width: 220px;
-  backdrop-filter: blur(6px);
+.user-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e5e7eb;
+  line-height: 1.3;
+}
+
+.user-role {
+  font-size: 11px;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+// ─── Body ────────────────────────────────────────────────────────
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// Top bar
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 36px 0;
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tx-1);
+  margin: 0;
+}
+
+.page-sub {
+  font-size: 14px;
+  color: var(--tx-3);
+  margin: 4px 0 0;
+}
+
+// Logout button
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--r-sm);
+  background: transparent;
+  border: 1px solid var(--br);
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              transform    var(--dur) var(--ease);
 
-  h3 {
-    margin: 0;
+  svg { flex-shrink: 0; }
+
+  &:hover {
+    background: #fef2f2;
+    border-color: var(--red);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: scale(0.98); }
+}
+
+// ─── Summary Cards ───────────────────────────────────────────────
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 0 36px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--br);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+
+  &-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tx-3);
+    margin-bottom: 6px;
+  }
+
+  &-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--tx-1);
+    letter-spacing: -0.02em;
+  }
+
+  &-hint {
+    font-size: 13px;
+    color: var(--tx-3);
+    margin: 4px 0 0;
+  }
+
+  &-arrow {
+    position: absolute;
+    bottom: 20px;
+    right: 22px;
     font-size: 20px;
-    color: #0d47a1;
-    margin-bottom: 10px;
+    color: var(--br);
+    transition: color var(--dur) var(--ease),
+                transform var(--dur) var(--ease);
   }
 
-  p {
-    margin: 0;
-    color: #000;
-    font-size: 14px;
+  // Clickable variant
+  &--link {
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease),
+                box-shadow    var(--dur) var(--ease),
+                transform     var(--dur) var(--ease);
+
+    &:hover {
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(99 102 241 / 0.08);
+      transform: translateY(-2px);
+
+      .card-arrow {
+        color: var(--brand-accent);
+        transform: translateX(3px);
+      }
+    }
+  }
+
+  // Accent variant (second card)
+  &--accent {
+    background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+    border-color: #c7d2fe;
+
+    .card-value { color: var(--brand-accent-2); }
+    .card-arrow { color: #c7d2fe; }
+
+    &:hover {
+      border-color: var(--brand-accent-2);
+      box-shadow: 0 0 0 3px rgba(79 70 229 / 0.1);
+
+      .card-arrow { color: var(--brand-accent-2); }
+    }
   }
 }
 
-/* 💫 Hover effect */
-.card:hover {
-  background: #bbdefb;
-  transform: translateY(-5px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-}
-
-/* 📱 Responsive layout */
-@media (max-width: 600px) {
-  .card {
-    width: 180px;
-    padding: 20px 30px;
-  }
+// ─── Router Outlet ───────────────────────────────────────────────
+.outlet-section {
+  flex: 1;
+  margin: 0 36px 36px;
+  background: var(--surface);
+  border: 1px solid var(--br);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  min-height: 200px;
 }
