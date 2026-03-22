@@ -1,0 +1,50 @@
+<div class="product-container">
+  <div class="header-section">
+    <h2 class="title">🛍 Product List</h2>
+    
+    <div *ngIf="role === 'ADMIN'" class="admin-controls">
+      <button class="add-btn" (click)="toggleAddForm()">
+        <span class="icon">{{ showAddForm ? '➖' : '➕' }}</span>
+        {{ showAddForm ? 'Close Form' : 'Add New Product' }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showAddForm" class="add-form-card">
+    <h3>Enter Product Details</h3>
+    <div class="form-grid">
+      <div class="input-group">
+        <label>Product Name</label>
+        <input type="text" placeholder="e.g. Sony TV" [(ngModel)]="newProduct.name" />
+      </div>
+      <div class="input-group">
+        <label>Price (₹)</label>
+        <input type="number" placeholder="0.00" [(ngModel)]="newProduct.price" />
+      </div>
+      <div class="input-group">
+        <label>Quantity</label>
+        <input type="number" placeholder="1" [(ngModel)]="newProduct.quantity" />
+      </div>
+    </div>
+    <button class="save-btn" (click)="addProduct()">Save Product</button>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card" *ngFor="let product of products">
+      <div class="img-container">
+        <img [src]="getProductImage(product.name)" (error)="onImageError($event)" alt="{{ product.name }}" />
+      </div>
+      <div class="product-info">
+        <h3>{{ product.name }}</h3>
+        <div class="stats">
+          <span class="price">₹{{ product.price }}</span>
+          <span class="qty">Qty: {{ product.quantity }}</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button *ngIf="role === 'USER'" (click)="buyProduct(product)" class="buy-btn">Buy Now</button>
+        <button *ngIf="role === 'ADMIN'" (click)="deleteProduct(product.id)" class="delete-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
