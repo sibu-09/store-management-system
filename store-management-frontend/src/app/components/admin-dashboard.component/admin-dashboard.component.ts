@@ -9,188 +9,328 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="admin-container">
-      <div class="header">
-        <h2>👑 Admin Dashboard</h2>
-        <button class="logout-btn" (click)="logout()">🚪 Logout</button>
-      </div>
-
-      <p class="welcome-text">Welcome, Admin! You have full access.</p>
-
-      <!-- Navigation Icons -->
-      <div class="nav-icons">
-        <div class="nav-item" routerLink="products">
-          <div class="icon">📦</div>
-          <span>Products</span>
+    <div class="dashboard-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand">
+            <span class="logo">👑</span>
+            <h2 class="nav-text">AdminPro</h2>
+          </div>
+          
+          <nav class="nav-menu">
+            <div class="nav-item" routerLink="products" routerLinkActive="active">
+              <span class="icon">📦</span> <span class="nav-text">Products</span>
+            </div>
+            <div class="nav-item" routerLink="customers" routerLinkActive="active">
+              <span class="icon">👥</span> <span class="nav-text">Customers</span>
+            </div>
+            <div class="nav-item" routerLink="sales" routerLinkActive="active">
+              <span class="icon">💰</span> <span class="nav-text">Sales</span>
+            </div>
+            <div class="nav-item" routerLink="reports" routerLinkActive="active">
+              <span class="icon">📊</span> <span class="nav-text">Reports</span>
+            </div>
+          </nav>
         </div>
 
-        <div class="nav-item" routerLink="customers">
-          <div class="icon">👥</div>
-          <span>Customers</span>
+        <div class="sidebar-footer">
+          <button class="logout-btn" (click)="logout()">
+            <span class="icon">🚪</span> <span class="nav-text">Logout</span>
+          </button>
         </div>
+      </aside>
 
-        <div class="nav-item" routerLink="sales">
-          <div class="icon">💰</div>
-          <span>Sales</span>
-        </div>
+      <main class="main-content">
+        <header class="top-bar">
+          <div class="welcome">
+            <h3>Dashboard Overview</h3>
+            <p>Welcome back, Admin!</p>
+          </div>
+          <div class="avatar">A</div>
+        </header>
 
-        <div class="nav-item" routerLink="reports">
-          <div class="icon">📊</div>
-          <span>Reports</span>
-        </div>
-      </div>
-
-      <router-outlet></router-outlet>
+        <section class="content-body">
+          <router-outlet></router-outlet>
+        </section>
+      </main>
     </div>
   `,
   styles: [`
-    /* 🌈 Animated background gradient */
-    .admin-container {
-      text-align: center;
-      padding: 40px;
-      min-height: 100vh;
-      background: linear-gradient(-45deg, #e3f2fd, #d1e9ff, #b3d4fc, #e0f7fa);
-      background-size: 400% 400%;
-      animation: gradientShift 12s ease infinite;
+    .dashboard-wrapper {
+      display: flex;
+      height: 100vh; /* Force wrapper to screen height */
+      overflow: hidden; /* Prevent body scroll */
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid #e0e0e0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between; /* CRITICAL: Pushes footer to absolute bottom */
+      height: 100vh;
+      position: sticky;
+      top: 0;
     }
 
-    /* Header */
-    .header {
+    .sidebar-top {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      width: 100%;
-      max-width: 900px;
-      animation: slideDown 1s ease;
+      flex-direction: column;
     }
 
-    h2 {
-      color: #000;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .welcome-text {
-      color: #111;
-      font-size: 1.1rem;
-      margin-bottom: 25px;
-      opacity: 0;
-      animation: fadeUp 1.2s ease forwards;
-      animation-delay: 0.3s;
-    }
-
-    /* Logout button */
-    .logout-btn {
-      background-color: #dc3545;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .logout-btn:hover {
-      background-color: #c82333;
-      transform: scale(1.05);
-    }
-
-    /* Navigation Icons */
-    .nav-icons {
+    .brand {
+      padding: 30px 24px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      animation: fadeUp 1.3s ease forwards;
-      animation-delay: 0.4s;
+      gap: 12px;
     }
+
+    .brand h2 { font-size: 1.25rem; margin: 0; font-weight: 700; color: #2b2d42; }
+
+    .nav-menu { padding: 10px 16px; }
 
     .nav-item {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      color: #8d99ae;
       cursor: pointer;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-      opacity: 0;
-      animation: fadeInCard 1s forwards;
+      font-weight: 500;
+      transition: 0.2s;
     }
 
-    .nav-item:nth-child(1) { animation-delay: 0.3s; }
-    .nav-item:nth-child(2) { animation-delay: 0.5s; }
-    .nav-item:nth-child(3) { animation-delay: 0.7s; }
-    .nav-item:nth-child(4) { animation-delay: 0.9s; }
+    .nav-item:hover { background: #f0f4ff; color: #4361ee; }
+    .nav-item.active { background: #4361ee; color: white; }
 
-    .icon {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background-color: white;
+    /* --- Logout Footer --- */
+    .sidebar-footer {
+      padding: 20px 16px;
+      border-top: 1px solid #f0f0f0;
+      background: #fff; /* Ensures visibility */
+    }
+
+    .logout-btn {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      gap: 10px;
+      padding: 12px;
+      background: #fff0f0;
+      color: #ef233c;
+      border: 1px solid #ffcccc;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
-    .icon:hover {
-      background-color: #007bff;
-      color: white;
-      transform: translateY(-6px) scale(1.1);
-      box-shadow: 0 8px 15px rgba(0, 123, 255, 0.3);
+    .logout-btn:hover { background: #ef233c; color: white; }
+
+    /* --- Main Content --- */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; /* Allows content to scroll while sidebar stays fixed */
     }
 
-    .nav-item span {
-      margin-top: 10px;
-      font-size: 1rem;
-      color: #000;
-      font-weight: 500;
+    .top-bar {
+      height: 70px;
+      background: white;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e0e0e0;
     }
 
-    /* ✨ Animations ✨ */
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .avatar {
+      width: 35px; height: 35px; background: #4361ee; color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
     }
 
-    @keyframes fadeUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    .content-body { padding: 30px; }
 
-    @keyframes fadeInCard {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
+    /* Mobile Fix */
     @media (max-width: 768px) {
-      .nav-icons {
-        gap: 25px;
-      }
-      .icon {
-        width: 70px;
-        height: 70px;
-        font-size: 1.5rem;
-      }
+      .sidebar { width: 70px; }
+      .nav-text { display: none; }
     }
   `]
 })
 export class AdminDashboardComponent {
   constructor(private authService: AuthService) {}
+  logout() { this.authService.logout(); }
+}import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
-  logout() {
-    this.authService.logout();
-  }
+@Component({
+  selector: 'app-admin-dashboard',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  template: `
+    <div class="dashboard-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand">
+            <span class="logo">👑</span>
+            <h2 class="nav-text">AdminPro</h2>
+          </div>
+          
+          <nav class="nav-menu">
+            <div class="nav-item" routerLink="products" routerLinkActive="active">
+              <span class="icon">📦</span> <span class="nav-text">Products</span>
+            </div>
+            <div class="nav-item" routerLink="customers" routerLinkActive="active">
+              <span class="icon">👥</span> <span class="nav-text">Customers</span>
+            </div>
+            <div class="nav-item" routerLink="sales" routerLinkActive="active">
+              <span class="icon">💰</span> <span class="nav-text">Sales</span>
+            </div>
+            <div class="nav-item" routerLink="reports" routerLinkActive="active">
+              <span class="icon">📊</span> <span class="nav-text">Reports</span>
+            </div>
+          </nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <button class="logout-btn" (click)="logout()">
+            <span class="icon">🚪</span> <span class="nav-text">Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="top-bar">
+          <div class="welcome">
+            <h3>Dashboard Overview</h3>
+            <p>Welcome back, Admin!</p>
+          </div>
+          <div class="avatar">A</div>
+        </header>
+
+        <section class="content-body">
+          <router-outlet></router-outlet>
+        </section>
+      </main>
+    </div>
+  `,
+  styles: [`
+    .dashboard-wrapper {
+      display: flex;
+      height: 100vh; /* Force wrapper to screen height */
+      overflow: hidden; /* Prevent body scroll */
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* CRITICAL: Pushes footer to absolute bottom */
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand {
+      padding: 30px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand h2 { font-size: 1.25rem; margin: 0; font-weight: 700; color: #2b2d42; }
+
+    .nav-menu { padding: 10px 16px; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      color: #8d99ae;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    .nav-item:hover { background: #f0f4ff; color: #4361ee; }
+    .nav-item.active { background: #4361ee; color: white; }
+
+    /* --- Logout Footer --- */
+    .sidebar-footer {
+      padding: 20px 16px;
+      border-top: 1px solid #f0f0f0;
+      background: #fff; /* Ensures visibility */
+    }
+
+    .logout-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px;
+      background: #fff0f0;
+      color: #ef233c;
+      border: 1px solid #ffcccc;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover { background: #ef233c; color: white; }
+
+    /* --- Main Content --- */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; /* Allows content to scroll while sidebar stays fixed */
+    }
+
+    .top-bar {
+      height: 70px;
+      background: white;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .avatar {
+      width: 35px; height: 35px; background: #4361ee; color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+
+    .content-body { padding: 30px; }
+
+    /* Mobile Fix */
+    @media (max-width: 768px) {
+      .sidebar { width: 70px; }
+      .nav-text { display: none; }
+    }
+  `]
+})
+export class AdminDashboardComponent {
+  constructor(private authService: AuthService) {}
+  logout() { this.authService.logout(); }
 }
