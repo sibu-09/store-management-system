@@ -1,339 +1,117 @@
-// user-dashboard.component.scss
-
-// ─── Tokens ──────────────────────────────────────────────────────
-:host {
-  // Brand
-  --brand:          #111827;
-  --brand-accent:   #6366f1;
-  --brand-accent-2: #4f46e5;
-
-  // Surface
-  --bg:             #f9fafb;
-  --surface:        #ffffff;
-  --surface-hover:  #f3f4f6;
-
-  // Text
-  --tx-1:           #111827;
-  --tx-2:           #374151;
-  --tx-3:           #9ca3af;
-
-  // Border
-  --br:             #e5e7eb;
-  --br-focus:       #6366f1;
-
-  // Danger
-  --red:            #ef4444;
-  --red-dark:       #dc2626;
-
-  // Misc
-  --sidebar-w:      240px;
-  --ease:           cubic-bezier(0.4, 0, 0.2, 1);
-  --dur:            0.2s;
-  --r-sm:           8px;
-  --r-md:           12px;
-  --r-lg:           16px;
-}
-
-// ─── Reset ───────────────────────────────────────────────────────
-*, *::before, *::after { box-sizing: border-box; }
-
-// ─── Shell ───────────────────────────────────────────────────────
-.shell {
+.dashboard-wrapper {
   display: flex;
   min-height: 100vh;
-  background: var(--bg);
-  font-family: 'Inter', system-ui, sans-serif;
-  color: var(--tx-1);
+  background-color: #f8fafc;
+  font-family: 'Inter', sans-serif;
 }
 
-// ─── Sidebar ─────────────────────────────────────────────────────
+/* Sidebar */
 .sidebar {
-  width: var(--sidebar-w);
-  min-height: 100vh;
-  background: var(--brand);
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  padding: 24px 0;
-  position: sticky;
-  top: 0;
-  flex-shrink: 0;
-}
+  padding: 20px 0;
 
-// Brand
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 20px 28px;
-  border-bottom: 1px solid rgba(255 255 255 / 0.08);
-
-  &-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: var(--r-sm);
-    background: var(--brand-accent);
-    color: #fff;
-    font-weight: 700;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &-name {
-    color: #fff;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-
-    strong {
-      font-weight: 700;
-      color: #a5b4fc;
+  .logo {
+    padding: 20px 30px;
+    h3 { 
+      color: #1e293b; 
+      font-weight: 800; 
+      span { color: #3b82f6; }
     }
   }
-}
 
-// Nav
-.nav {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 20px 12px;
-}
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--r-sm);
-  color: #9ca3af;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background var(--dur) var(--ease),
-              color     var(--dur) var(--ease);
+    li {
+      margin: 8px 15px;
+      border-radius: 10px;
+      transition: all 0.3s;
 
-  &:hover {
-    background: rgba(255 255 255 / 0.06);
-    color: #e5e7eb;
-  }
+      a {
+        display: block;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: #64748b;
+        font-weight: 500;
+      }
 
-  &--active {
-    background: var(--brand-accent);
-    color: #fff;
-
-    .nav-icon { opacity: 1; }
-  }
-}
-
-.nav-icon {
-  width: 18px;
-  height: 18px;
-  opacity: 0.6;
-  flex-shrink: 0;
-  transition: opacity var(--dur);
-}
-
-// Sidebar footer
-.sidebar-footer {
-  padding: 16px 12px 0;
-  border-top: 1px solid rgba(255 255 255 / 0.08);
-  margin-top: auto;
-}
-
-.user-chip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: var(--r-sm);
-}
-
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--brand-accent);
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.user-meta {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #e5e7eb;
-  line-height: 1.3;
-}
-
-.user-role {
-  font-size: 11px;
-  color: #6b7280;
-  line-height: 1.3;
-}
-
-// ─── Body ────────────────────────────────────────────────────────
-.body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-// Top bar
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 28px 36px 0;
-  margin-bottom: 32px;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--tx-1);
-  margin: 0;
-}
-
-.page-sub {
-  font-size: 14px;
-  color: var(--tx-3);
-  margin: 4px 0 0;
-}
-
-// Logout button
-.btn-logout {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--r-sm);
-  background: transparent;
-  border: 1px solid var(--br);
-  color: var(--red);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background var(--dur) var(--ease),
-              border-color var(--dur) var(--ease),
-              transform    var(--dur) var(--ease);
-
-  svg { flex-shrink: 0; }
-
-  &:hover {
-    background: #fef2f2;
-    border-color: var(--red);
-    transform: translateY(-1px);
-  }
-
-  &:active { transform: scale(0.98); }
-}
-
-// ─── Summary Cards ───────────────────────────────────────────────
-.cards-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  padding: 0 36px;
-  margin-bottom: 32px;
-}
-
-.card {
-  background: var(--surface);
-  border: 1px solid var(--br);
-  border-radius: var(--r-lg);
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-
-  &-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--tx-3);
-    margin-bottom: 6px;
-  }
-
-  &-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--tx-1);
-    letter-spacing: -0.02em;
-  }
-
-  &-hint {
-    font-size: 13px;
-    color: var(--tx-3);
-    margin: 4px 0 0;
-  }
-
-  &-arrow {
-    position: absolute;
-    bottom: 20px;
-    right: 22px;
-    font-size: 20px;
-    color: var(--br);
-    transition: color var(--dur) var(--ease),
-                transform var(--dur) var(--ease);
-  }
-
-  // Clickable variant
-  &--link {
-    cursor: pointer;
-    transition: border-color var(--dur) var(--ease),
-                box-shadow    var(--dur) var(--ease),
-                transform     var(--dur) var(--ease);
-
-    &:hover {
-      border-color: var(--brand-accent);
-      box-shadow: 0 0 0 3px rgba(99 102 241 / 0.08);
-      transform: translateY(-2px);
-
-      .card-arrow {
-        color: var(--brand-accent);
-        transform: translateX(3px);
+      &:hover { background: #f1f5f9; }
+      &.active-link {
+        background: #3b82f6;
+        a { color: white; }
       }
     }
   }
-
-  // Accent variant (second card)
-  &--accent {
-    background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
-    border-color: #c7d2fe;
-
-    .card-value { color: var(--brand-accent-2); }
-    .card-arrow { color: #c7d2fe; }
-
-    &:hover {
-      border-color: var(--brand-accent-2);
-      box-shadow: 0 0 0 3px rgba(79 70 229 / 0.1);
-
-      .card-arrow { color: var(--brand-accent-2); }
-    }
-  }
 }
 
-// ─── Router Outlet ───────────────────────────────────────────────
-.outlet-section {
+/* Main Content */
+.main-content {
   flex: 1;
-  margin: 0 36px 36px;
-  background: var(--surface);
-  border: 1px solid var(--br);
-  border-radius: var(--r-lg);
-  padding: 24px;
-  min-height: 200px;
+  padding: 40px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+
+  h2 { color: #0f172a; font-size: 28px; margin: 0; }
+  p { color: #64748b; margin: 5px 0 0; }
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+  &:hover { transform: scale(1.05); background: #dc2626; }
+}
+
+/* Updated Rectangular Cards (No more odd circles) */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
+    transform: translateY(-5px);
+  }
+
+  h3 { color: #1e293b; margin: 0; font-size: 22px; }
+  p { color: #94a3b8; margin: 5px 0 0; font-size: 14px; }
+  .arrow { color: #3b82f6; font-size: 24px; font-weight: bold; }
+}
+
+.outlet-container {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
