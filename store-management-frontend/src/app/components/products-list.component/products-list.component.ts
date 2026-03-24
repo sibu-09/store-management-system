@@ -58,7 +58,11 @@ export class ProductListComponent implements OnInit {
     this.currentUser = this.authService.getUser();
     console.log("Current User attempting purchase:", this.currentUser);
 
+<<<<<<< HEAD
     if (!this.authService.isLoggedIn()  !this.currentUser) {
+=======
+    if (!this.authService.isLoggedIn() || !this.currentUser) {
+>>>>>>> b49b4fd (Product list  changed)
       alert('Please login first!');
       this.router.navigate(['/login']);
       return;
@@ -71,16 +75,26 @@ export class ProductListComponent implements OnInit {
       price: product.price,
       totalAmount: product.price * requestedQty,
       // Use optional chaining so it doesn't crash if name/email is missing
+<<<<<<< HEAD
       customerName: this.currentUser.name  this.currentUser.username  'Unknown',
       customerEmail: this.currentUser.email  'No Email',
       customerPhone: this.currentUser.phone  'N/A'
+=======
+      customerName: this.currentUser.name || this.currentUser.username || 'Unknown',
+      customerEmail: this.currentUser.email || 'No Email',
+      customerPhone: this.currentUser.phone || 'N/A'
+>>>>>>> b49b4fd (Product list  changed)
     };
 
     console.log("Sending Sale Request to Backend:", sale);
 
     this.productService.buyProduct(product.id, sale).subscribe({
       next: (res: any) => {
+<<<<<<< HEAD
         alert(res.message  '✅ Purchase successful!');
+=======
+        alert(res.message || '✅ Purchase successful!');
+>>>>>>> b49b4fd (Product list  changed)
         this.loadProducts();
       },
       error: (err) => {
@@ -91,7 +105,11 @@ export class ProductListComponent implements OnInit {
 }
   getProductImage(productName: string): string {
   // Return the expected image path
+<<<<<<< HEAD
         return images/${productName.toLowerCase()}.jpg;
+=======
+        return `images/${productName.toLowerCase()}.jpg`;
+>>>>>>> b49b4fd (Product list  changed)
   }
 
   onImageError(event: Event): void { 

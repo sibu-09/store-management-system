@@ -1,6 +1,6 @@
 <div class="product-container">
   <div class="header-section">
-    <h2 class="title">🛍 Product List</h2>
+    <h2 class="title">🛍 Product Inventory</h2>
     
     <div *ngIf="role === 'ADMIN'" class="admin-controls">
       <button class="add-btn" (click)="toggleAddForm()">
@@ -11,7 +11,7 @@
   </div>
 
   <div *ngIf="showAddForm" class="add-form-card">
-    <h3>Enter Product Details</h3>
+    <h3>✨ Enter Product Details</h3>
     <div class="form-grid">
       <div class="input-group">
         <label>Product Name</label>
@@ -26,24 +26,41 @@
         <input type="number" placeholder="1" [(ngModel)]="newProduct.quantity" />
       </div>
     </div>
-    <button class="save-btn" (click)="addProduct()">Save Product</button>
+    <button class="save-btn" (click)="addProduct()">🚀 Save Product</button>
   </div>
 
   <div class="product-grid">
-    <div class="product-card" *ngFor="let product of products">
+    <div class="product-card" *ngFor="let product of products" [class.out-of-stock]="product.quantity === 0">
+      
       <div class="img-container">
-        <img [src]="getProductImage(product.name)" (error)="onImageError($event)" alt="{{ product.name }}" />
+        <img [src]="getProductImage(product.name)" (error)="onImageError($event)" alt="Product">
+        <div class="out-of-stock-overlay" *ngIf="product.quantity === 0">OUT OF STOCK</div>
       </div>
+      
       <div class="product-info">
-        <h3>{{ product.name }}</h3>
-        <div class="stats">
-          <span class="price">₹{{ product.price }}</span>
-          <span class="qty">Qty: {{ product.quantity }}</span>
+        <div class="info-top">
+          <h3>{{ product.name }}</h3>
+          <p class="price">₹{{ product.price | number }}</p>
         </div>
-      </div>
-      <div class="card-actions">
-        <button *ngIf="role === 'USER'" (click)="buyProduct(product)" class="buy-btn">Buy Now</button>
-        <button *ngIf="role === 'ADMIN'" (click)="deleteProduct(product.id)" class="delete-btn">Delete</button>
+        
+        <p class="stock-status" [ngClass]="{'out-of-stock-text': product.quantity === 0}">
+          {{ product.quantity > 0 ? '📦 In Stock: ' + product.quantity : '🚫 Sold Out' }}
+        </p>
+         
+
+        <div class="actions">
+          <button 
+            class="buy-btn"
+            (click)="buyProduct(product)" 
+            [disabled]="product.quantity <= 0"
+            [class.disabled-btn]="product.quantity <= 0">
+            {{ product.quantity > 0 ? '🛒 Buy Now' : 'Out of Stock' }}
+          </button>
+
+          <button *ngIf="role === 'ADMIN'" class="delete-btn" (click)="deleteProduct(product.id)" title="Delete Product">
+            🗑️
+          </button>
+        </div>
       </div>
     </div>
   </div>
