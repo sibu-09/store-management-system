@@ -11,11 +11,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, credentials);
+    return this.http.post(${this.baseUrl}/login, credentials);
   }
 
   register(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, user);
+    return this.http.post(${this.baseUrl}/register, user);
   }
 
   saveToken(token: string, role: string): void {
@@ -24,9 +24,9 @@ export class AuthService {
   }
 
   // ✅ Save logged-in user
-  saveUser(user: any): void {
+ /* saveUser(user: any): void {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-  }
+  }*/
 
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -48,8 +48,21 @@ export class AuthService {
   }
 
   // ✅ Proper getUser implementation
-  getUser(): any {
+ /* getUser(): any {
     const user = localStorage.getItem(this.USER_KEY);
     return user ? JSON.parse(user) : null;
-  }
+  }*/
+
+  // auth.service.ts
+saveUser(user: any) {
+  // We must turn the object into a string to save it in localStorage
+  localStorage.setItem('user', JSON.stringify(user));
+  // Also save the email separately for easy filtering later
+  localStorage.setItem('email', user.email); 
+}
+
+getUser() {
+  const user = localStorage.getItem('user');
+  return user ? JSON.parse(user) : null;
+}
 }

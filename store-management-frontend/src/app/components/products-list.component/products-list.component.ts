@@ -38,7 +38,7 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct(): void {
-    if (!this.newProduct.name || !this.newProduct.price || !this.newProduct.quantity) {
+    if (!this.newProduct.name  !this.newProduct.price  !this.newProduct.quantity) {
       alert('Please fill all fields!');
       return;
     }
@@ -53,33 +53,63 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  buyProduct(product: any): void {
+  buyProduct(product: any, requestedQty: number = 1): void {
+    // 1. Get user and LOG IT to see if it's null
     this.currentUser = this.authService.getUser();
-    if (!this.authService.isLoggedIn()) {
+    console.log("Current User attempting purchase:", this.currentUser);
+
+<<<<<<< HEAD
+    if (!this.authService.isLoggedIn()  !this.currentUser) {
+=======
+    if (!this.authService.isLoggedIn() || !this.currentUser) {
+>>>>>>> b49b4fd (Product list  changed)
       alert('Please login first!');
       this.router.navigate(['/login']);
       return;
     }
 
+    // 2. Create the sale object - Check these property names!
     const sale = {
       productName: product.name,
-      quantity: 1,
+      quantity: requestedQty,
       price: product.price,
-      totalAmount: product.price,
-      saleDate: new Date(),
-      customerName: this.currentUser.name,
-      customerEmail: this.currentUser.email,
+      totalAmount: product.price * requestedQty,
+      // Use optional chaining so it doesn't crash if name/email is missing
+<<<<<<< HEAD
+      customerName: this.currentUser.name  this.currentUser.username  'Unknown',
+      customerEmail: this.currentUser.email  'No Email',
+      customerPhone: this.currentUser.phone  'N/A'
+=======
+      customerName: this.currentUser.name || this.currentUser.username || 'Unknown',
+      customerEmail: this.currentUser.email || 'No Email',
       customerPhone: this.currentUser.phone || 'N/A'
+>>>>>>> b49b4fd (Product list  changed)
     };
 
-    this.productService.buyProduct(sale).subscribe({
-      next: () => alert(`🛒 Purchase successful for ${product.name}`),
-      error: (err) => console.error('Error buying product:', err)
+    console.log("Sending Sale Request to Backend:", sale);
+
+    this.productService.buyProduct(product.id, sale).subscribe({
+      next: (res: any) => {
+<<<<<<< HEAD
+        alert(res.message  '✅ Purchase successful!');
+=======
+        alert(res.message || '✅ Purchase successful!');
+>>>>>>> b49b4fd (Product list  changed)
+        this.loadProducts();
+      },
+      error: (err) => {
+        console.error('Backend Error:', err);
+        alert(err.error?.message || '❌ Transaction failed');
+      }
     });
-  }
+}
   getProductImage(productName: string): string {
   // Return the expected image path
-        return `assets/images/${productName.toLowerCase()}.jpg`;
+<<<<<<< HEAD
+        return images/${productName.toLowerCase()}.jpg;
+=======
+        return `images/${productName.toLowerCase()}.jpg`;
+>>>>>>> b49b4fd (Product list  changed)
   }
 
   onImageError(event: Event): void { 
@@ -108,7 +138,7 @@ export class ProductListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProduct(id, this.role).subscribe({
         next: () => {
-          alert('🗑️ Product deleted successfully!');
+          alert('🗑 Product deleted successfully!');
           this.loadProducts();
         },
         error: (err: any) => {
