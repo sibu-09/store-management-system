@@ -1,218 +1,187 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms'; // ✅ Switched to Reactive
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], // ✅ Added ReactiveFormsModule
   template: `
     <div class="auth-container">
       <h2>📝 Register</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        
+        <div class="input-group">
+          <input type="text" formControlName="username" placeholder="Username" 
+                 [class.error-border]="isInvalid('username')" />
+          <div class="error-text" *ngIf="isInvalid('username')">
+            <small>Username (min 3 chars) is required.</small>
+          </div>
+        </div>
 
-      <form (ngSubmit)="onRegister()">
-        <input
-          type="text"
-          name="username"
-          [(ngModel)]="user.username"
-          placeholder="Username"
-          required
-        />
+        <div class="input-group">
+          <input type="password" formControlName="password" placeholder="Password" 
+                 [class.error-border]="isInvalid('password')" />
+          <div class="error-text" *ngIf="isInvalid('password')">
+            <small>Password must be at least 6 characters.</small>
+          </div>
+        </div>
 
-        <input
-          type="password"
-          name="password"
-          [(ngModel)]="user.password"
-          placeholder="Password"
-          required
-        />
+        <div class="input-group">
+          <input type="text" formControlName="name" placeholder="Full Name" 
+                 [class.error-border]="isInvalid('name')" />
+          <div class="error-text" *ngIf="isInvalid('name')">
+            <small *ngIf="registerForm.get('name')?.errors?.['required']">Full Name is required.</small>
+            <small *ngIf="registerForm.get('name')?.errors?.['pattern']">Numbers/Symbols are not allowed.</small>
+          </div>
+        </div>
 
-        <input
-          type="text"
-          name="name"
-          [(ngModel)]="user.name"
-          placeholder="Full Name"
-          required
-        />
+        <div class="input-group">
+          <input type="email" formControlName="email" placeholder="Email" 
+                 [class.error-border]="isInvalid('email')" />
+          <div class="error-text" *ngIf="isInvalid('email')">
+            <small>Please enter a valid email address.</small>
+          </div>
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          [(ngModel)]="user.email"
-          placeholder="Email"
-          required
-        />
+        <div class="input-group">
+          <input type="text" formControlName="phone" placeholder="Phone (10 digits)" 
+                 [class.error-border]="isInvalid('phone')" />
+          <div class="error-text" *ngIf="isInvalid('phone')">
+            <small>Enter a valid 10-digit phone number.</small>
+          </div>
+        </div>
 
-        <input
-          type="text"
-          name="phone"
-          [(ngModel)]="user.phone"
-          placeholder="Phone"
-          required
-        />
+        <div class="input-group">
+          <input type="text" formControlName="address" placeholder="Address" 
+                 [class.error-border]="isInvalid('address')" />
+          <div class="error-text" *ngIf="isInvalid('address')">
+            <small>Address is required.</small>
+          </div>
+        </div>
 
-        <input
-          type="text"
-          name="address"
-          [(ngModel)]="user.address"
-          placeholder="Address"
-          required
-        />
-
-        <select
-          name="role"
-          [(ngModel)]="user.role"
-          required
-        >
+        <select formControlName="role">
           <option value="USER">User</option>
           <option value="ADMIN">Admin</option>
         </select>
 
-        <button type="submit">
-          Register
-        </button>
+        <button type="submit" [disabled]="registerForm.invalid">Register</button>
       </form>
-
-      <p>
-        Already have an account?
-        <a routerLink="/login">Login here</a>
-      </p>
+      <p>Already have an account? <a routerLink="/login">Login here</a></p>
     </div>
   `,
   styles: [`
-    /* Layout */
     .auth-container {
       max-width: 400px;
-      margin: 60px auto;
+      margin: 40px auto;
       padding: 30px;
-      text-align: center;
-      font-family: 'Segoe UI', sans-serif;
-
       background: linear-gradient(135deg, #f0f4ff, #e8f0fe);
       border-radius: 16px;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      color: #000;
+      text-align: center;
+      font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Heading */
-    h2 {
-      margin-bottom: 20px;
-      font-size: 28px;
-      font-weight: 600;
-      color: #1e3a8a;
-    }
-
-    /* Form */
-    form {
+    .input-group {
+      width: 90%;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    input,
-    select {
-      width: 90%;
-      margin: 10px 0;
+    input, select {
+      width: 100%;
+      margin: 8px 0;
       padding: 10px 12px;
-
-      font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 8px;
-
       transition: all 0.3s ease;
     }
 
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
+    /* Professional Error Styling */
+    .error-border {
+      border: 1.5px solid #ef4444 !important;
+      background-color: #fff5f5;
     }
 
-    /* Button */
+    .error-text {
+      width: 100%;
+      text-align: left;
+      color: #ef4444;
+      margin-bottom: 5px;
+      padding-left: 5px;
+    }
+
+    input:focus {
+      border-color: #3b82f6;
+      outline: none;
+    }
+
     button {
-      width: 60%;
       margin-top: 15px;
       padding: 10px 20px;
-
+      width: 60%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
       font-weight: 600;
-      color: #fff;
-
       border: none;
       border-radius: 8px;
       cursor: pointer;
-
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      transition: all 0.3s ease;
     }
 
-    button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #16a34a, #15803d);
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none !important;
     }
 
-    /* Text */
-    p {
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    a {
-      font-weight: 500;
-      color: #2563eb;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .auth-container {
-        width: 90%;
-        padding: 20px;
-      }
-
-      input,
-      select {
-        width: 100%;
-      }
-
-      button {
-        width: 80%;
-      }
-    }
+    h2 { color: #1e3a8a; margin-bottom: 20px; }
+    p { margin-top: 15px; font-size: 14px; }
+    a { color: #2563eb; text-decoration: none; font-weight: 500; }
   `]
 })
 export class RegisterComponent {
-  user = {
-    username: '',
-    password: '',
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    role: 'USER'
-  };
+  registerForm: FormGroup;
 
   constructor(
-    private authService: AuthService,
+    private fb: FormBuilder, 
+    private authService: AuthService, 
     private router: Router
-  ) {}
-
-  onRegister(): void {
-    this.authService.register(this.user).subscribe({
-      next: (res: any) => {
-        alert(res.message || '✅ Registration successful!');
-        this.router.navigate(['/login']);
-      },
-      error: (err: any) => {
-        console.error('Registration error:', err);
-        alert('❌ Registration failed!');
-      }
+  ) {
+    // Defining the same rules we set in Spring Boot
+    this.registerForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Letters only
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], // 10 Digits only
+      address: ['', Validators.required],
+      role: ['USER']
     });
+  }
+
+  // Helper to check if a field is invalid and was touched
+  isInvalid(controlName: string): boolean {
+    const control = this.registerForm.get(controlName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+
+  onRegister() {
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: (res: any) => {
+          alert(res.message || '✅ Registration successful!');
+          this.router.navigate(['/login']);
+        },
+        error: (err: any) => {
+          // If backend validation fails (e.g. User exists), show that message
+          alert(err.error?.message || '❌ Registration failed!');
+        }
+      });
+    } else {
+      this.registerForm.markAllAsTouched(); // Force show errors if they click submit
+    }
   }
 }
