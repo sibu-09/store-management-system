@@ -1,13 +1,19 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Sale;
-import com.example.demo.entity.Customer;
-import com.example.demo.repository.SaleRepository;
-import com.example.demo.repository.CustomerRepository;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.example.demo.entity.Customer;
+import com.example.demo.entity.Sale;
+import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.SaleRepository;
 
 @Service
 public class SaleService {
@@ -20,7 +26,7 @@ public class SaleService {
 
     // ✅ Create or update a sale
     public Sale saveSale(Sale sale) {
-        sale.setSaleDate(java.time.LocalDate.now());
+    	 sale.setSaleDate(java.time.LocalDateTime.now()); 
 
         // ✅ 1. Save sale as usual
         Sale savedSale = saleRepository.save(sale);
@@ -105,5 +111,6 @@ public class SaleService {
 
         return saleRepository.save(existingSale);
     }
+    
 
 }
